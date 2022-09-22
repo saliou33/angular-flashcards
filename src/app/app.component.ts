@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { FlashService } from './flash.service';
 import { IFlash } from './flash.model';
@@ -8,7 +8,7 @@ import { IFlash } from './flash.model';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title: string;
   // flash editing
   editing: boolean;
@@ -19,6 +19,7 @@ export class AppComponent {
   flashForm: FormGroup;
   question: FormControl;
   answer: FormControl;
+  subscription: any;
 
   constructor (fb: FormBuilder, private flashService: FlashService) {
     this.title = 'angular-flashcards';
@@ -31,6 +32,16 @@ export class AppComponent {
     this.question = this.flashForm.controls['question'] as FormControl;
     this.answer = this.flashForm.controls['answer'] as FormControl;
     this.flashs = flashService.flashs;
+  }
+
+  ngOnInit(): void {
+    this.subscription = this.flashService.flashs$.subscribe(flashs => {this.flashs = flashs})
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   trackByFlashId (index: number, flash: IFlash) : number {

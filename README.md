@@ -1,2 +1,2 @@
 # Angular Flashcards
-A angular game project about flashcards(Q/A) 
+A angular aimple game project about flashcards(Q/A) 
