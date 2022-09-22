@@ -1,2 +1,2 @@
 # Angular Flashcards
-A angular aimple game project about flashcards(Q/A) 
+A simple angular project about flashcards(Q/A) Using Bulma Css
